@@ -1,0 +1,316 @@
+.QWidget {
+   background-color: beige;
+}
+
+/* Nice Windows-XP-style password character. */
+QLineEdit[echoMode="2"] {
+    lineedit-password-character: 9679;
+}
+
+/* We provide a min-width and min-height for push buttons
+   so that they look elegant regardless of the width of the text. */
+QPushButton {
+    background: qradialgradient(cx: 0.3, cy: -0.4,
+    fx: 0.3, fy: -0.4,
+    radius: 1.45, stop: 0 #ffc, stop: 1 #b6dbb8); 
+    border-width: 2px;
+    border-color: lightgrey;
+    border-style: solid;
+    /* border-radius: 12px; */
+    padding: 2px;
+    min-width: 10ex;
+    min-height: 2ex;
+}
+
+QPushButton:hover {
+    color: yellow;
+    background: qradialgradient(cx: 0.3, cy: -0.4,
+    fx: 0.3, fy: -0.4,
+    radius: 1.45, stop: 0 #fef, stop: 1 green); 
+    border-width: 2px;
+    border-color: grey;
+    border-style: solid;
+}
+
+ QPushButton:disabled {
+  color: grey;
+  /* font-weight: normal; */
+  border-width: 0pt;
+  background: qradialgradient(cx: 0.3, cy: -0.4,
+  fx: 0.3, fy: -0.4,
+  radius: 1.45, stop: 0 #fff, stop: 1 #bbb);
+}
+
+
+/* Increase the padding, so the text is shifted when the button is
+   pressed. */
+QPushButton:pressed {
+    color: orange; 		    
+    padding-left: 3px;
+    padding-top: 3px;
+    background-color: #d0d67c;
+}
+
+QLabel, QAbstractButton {
+    font: bold;
+}
+
+/* Mark mandatory fields with a brownish color. */
+.mandatory {
+    color: lightbrown;
+}
+
+/* Bold text on status bar looks awful. */
+QStatusBar QLabel {
+   font: normal;
+}
+
+QStatusBar::item {
+    border-width: 1;
+    border-color: darkkhaki;
+    border-style: solid;
+    border-radius: 2;
+}
+
+QListView {
+    show-decoration-selected: 1;
+}
+
+QListView::item:hover {
+    background-color: wheat;
+}
+
+/* We reserve 1 pixel space in padding. When we get the focus,
+   we kill the padding and enlarge the border. This makes the items
+   glow. */
+
+QFrame {
+    background: 
+    qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                stop: 0 cornsilk, stop:  0.5 #ebf1bd, stop: 1 #ccf4bb);
+    border-width: 2px;
+    padding: 1px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 5px;
+}
+
+
+QLineEdit, QSpinBox, QTextEdit, QListView {
+    background-color: cornsilk;
+    selection-color: #0a214c; 
+    selection-background-color: #C19A6B;
+}
+
+QLineEdit {
+    border-width: 2px;
+    padding: 1px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 5px;
+}
+
+/* As mentioned above, eliminate the padding and increase the border. */
+QLineEdit:focus, QComboBox:focus, QTextEdit:focus, QListView:focus, 
+                 QFrame:focus {
+    border-color: grey;		 
+    border-width: 2px;
+    padding: 0px;
+}
+
+/* A QLabel is a QFrame ... */
+QLabel {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+/* A QToolTip is a QLabel ... */
+QToolTip {
+    border: 1px solid lightgray;
+    padding-top: 3px;
+    padding: 5px;
+    /* border-radius: 5px; */
+    background-color: lightyellow;
+}
+
+/* Nice to have the background color change when hovered. */
+QRadioButton:hover, QCheckBox:hover {
+    background-color: wheat;
+}
+
+/* Force the dialog's buttons to follow the Windows guidelines.
+   egge: not me*/
+/* QDialogButtonBox {
+    button-layout: 0;
+}
+*/
+
+QTabWidget {
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #b6dbb8,
+				stop: 0.6 #ccf4bb,
+                                stop: 1.0 #ccf4bb);
+  border: 0px;
+}
+
+ QTabWidget::tab-bar {
+    left: 20px; /* move to the right by 5px */
+    background-color: #b6dbb8;
+}
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+ QTabBar::tab {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #E1E1E1,
+				stop: 0.6 #b6dbb8,
+                                stop: 1.0 #ccf4bb);
+    border: 2px solid #C4C4C3;
+    border-bottom-width: 0px;
+    border-bottom-color: #b6dbb8; /* same as the pane color */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    min-width: 180mm;
+    font-size: 9pt;
+    padding: 5px;
+    padding-bottom: 0px;
+}
+
+ QTabBar::tab:hover {
+    color: yellow;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 9pt;
+    background: qradialgradient(cx: 0.3, cy: -0.4,
+    fx: 0.3, fy: -0.4,
+    radius: 1.45, stop: 0 #fda, stop: 1 green); 
+/*
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+*/
+}
+
+
+ QTabBar::tab:selected
+{
+   color: green;
+   font-weight: bold;
+    font-size: 9pt;
+   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.33 #f4f4f4,
+                                stop: 0.67 #e7e7e7, stop: 1.0  #ebf1bd);
+    border-color: #9B9B9B;
+    border-bottom-color: #b6dbb8; /* same as pane color */
+    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+
+ QTabBar::tab:!selected {
+    /* padding-right: -7px; */
+    /* font-color: grey; */
+    /* margin-top: 2px;*/ /* make non-selected tabs look smaller */
+}
+
+ QTabWidget::pane { /* The tab widget frame */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+			   stop: 0 #b6dbb8, 
+			   stop: 1.0 #ebf1bd);
+    border-top: 0px;
+    position: absolute;
+    top: -0.9em;
+    border: 1px solid #C4C4C3;
+    border-bottom-color: #b6dbb8; /* same as the pane color */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
+QComboBox {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QCombobox:focus {
+ /*   border-color: grey;		 
+    border-width: 2px; */
+    padding: 0px 17px 0px 2px;
+}
+
+QComboBox:editable {
+    background-color: cornsilk;
+    selection-color: #0a214c; 
+    selection-background-color: #C19A6B;
+    padding-right: 4px;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the "on" state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+}
+
+QComboBox::drop-down {
+    /* subcontrol-origin: padding right; */
+    subcontrol-position: top right;
+    width: 16px;
+    border-left-width: 1px;
+    border-left-color: gray;
+    border-left-style: double; /* not just a single line */
+    border-top-right-radius: 6px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 6px; 
+}
+
+
+QComboBox::down-arrow {
+    image: url(:/images/egge-downarrow.png);
+    border: 0px;
+    border-radius: 6px;
+    padding-left: 2px;
+    padding-right: 2px
+}
+
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+/*    left: 1px; */
+}
+
+/* The pop-up of the QComboBox is a QAbstractItemView and is styled using
+the descendant selector: */
+
+QComboBox QAbstractItemView {
+    border: 2px solid darkgray;
+    selection-background-color: beige;
+}
+
+QGroupBox {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #ebf1bd, stop: 1 #b6dbb8);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 1ex; /* leave space at the top for the title */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 0 3px;
+    background-color: #ebf1bd;
+}
