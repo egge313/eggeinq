@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets network
 
 TARGET = whatismyip
 TEMPLATE = app
@@ -25,10 +25,11 @@ CONFIG += c++14
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-
+        curlget.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        curlget.h
 
 FORMS += \
         mainwindow.ui
@@ -37,6 +38,13 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+unix:!macx: LIBS += -L/usr/lib/ -L/usr/lib/x86_64-linux-gnu -lcurl
+
+INCLUDEPATH += /usr/inluce/x86_64-linux-gnu
+INCLUDEPATH += /usr/include/c++/6
+
+DEPENDPATH += /usr/inluce/x86_64-linux-gnu
 
 DISTFILES += \
     qss/coffee.qss \

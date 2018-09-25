@@ -16,6 +16,9 @@ public:
     void setStyleSheet(const QString & sheetName);
     ~MainWindow();
 
+private:
+    void showhostip();
+
 public slots:
     void OnClickedClose();
     void OnClickedInquire();

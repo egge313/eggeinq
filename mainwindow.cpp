@@ -1,8 +1,11 @@
 #include "mainwindow.h"
+#include "curlget.h"
 #include "ui_mainwindow.h"
 #include <QFile>
 #include <QString>
 #include <QProcessEnvironment>
+#include <QList>
+#include <QNetworkInterface>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,11 +60,24 @@ void MainWindow::OnClickedInquire()
 {
   if (ui->checkBoxIPv4   -> isChecked())
     {
-      // unimplemented
+      QString data;
+      QString errmsg;
+      if (curlget (data, errmsg))
+	{
+	  ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
+	  ui->textEdit->append (data);
+	}	
+      else
+	{
+	  ui->textEdit->append (errmsg);
+	}	
+
     }
   if (ui->checkBoxLocal   -> isChecked())
     {
-      // unimplemented
+	  ui->textEdit->append (
+			 "<h3>Local network addresses in this host:</h3>");
+	  showhostip ();
     }
   if (ui->checkBoxEnv   -> isChecked())
     {
@@ -126,6 +142,23 @@ void MainWindow::setStyleSheet(const QString & sheetName)
   file.open(QFile::ReadOnly);
   QString styleSheet = QString::fromLatin1(file.readAll());
   qApp->setStyleSheet(styleSheet);
+}
+
+
+void MainWindow::showhostip()
+{
+    // find out IP addresses of this machine
+    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
+    // add non-localhost addresses
+    for (int i = 0; i < ipAddressesList.size(); ++i) {
+        if (!ipAddressesList.at(i).isLoopback())
+             ui->textEdit->append(ipAddressesList.at(i).toString());
+    }
+    // add localhost addresses
+    for (int i = 0; i < ipAddressesList.size(); ++i) {
+        if (ipAddressesList.at(i).isLoopback())
+             ui->textEdit->append(ipAddressesList.at(i).toString());
+    }
 }
 
 

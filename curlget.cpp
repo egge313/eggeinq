@@ -23,65 +23,79 @@
  * Very simple HTTP GET
  * </DESC>
  */
-#include <stdio.h>
+#include <stdlib.h>
+#include <QString>
 #include <curl/curl.h>
+#include "curlget.h"
 
-static std::string buffer;
+static QString buffer;
 
 //
 //  libcurl write callback function
 //
 
-static int writer(char *data, size_t size, size_t nmemb,
-                  std::string *writerData)
+static int writer(char *data, size_t size, size_t nmemb, QString *writerData)
 {
   if(writerData == NULL)
     return 0;
 
-  writerData->append(data, size*nmemb);
+  writerData->append(data);
 
   return size * nmemb;
 }
 
-int curlget (void)
+bool curlget (QString & data, QString & errmsg)
 {
   CURL *curl;
-  CURLcode res;
-  crl_mime *multipart;
-  curl_mimepart *part;
-
+  CURLcode res, code;
 
   curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, 
+  if(curl)
+    {
+      curl_easy_setopt(curl, CURLOPT_URL, 
 		     "http://www.ipmango.com/api/myip"
 		     );
-    /* example.com is redirected, so we tell libcurl to follow redirection */
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+      /* example.com is redirected, so we tell libcurl to follow redirection */
+      curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-  code = curl_easy_setopt(conn, CURLOPT_WRITEFUNCTION, writer);
-  if(code != CURLE_OK) {
-    fprintf(stderr, "Failed to set writer [%s]\n", errorBuffer);
-    return false;
-  }
+      code = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);
+      if(code != CURLE_OK)
+	{
+	  // fprintf(stderr, "Failed to set writer [%s]\n", errorBuffer);
+	  errmsg = "Failed to set writer.";
+	  return false;
+	}
 
-  code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &buffer);
-  if(code != CURLE_OK) {
-    fprintf(stderr, "Failed to set write data [%s]\n", errorBuffer);
-    return false;
-  }
+      buffer = "";
+      code = curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+      if(code != CURLE_OK) {
+	// fprintf(stderr, "Failed to set write data [%s]\n", errorBuffer);
+	errmsg = "Failed to set write data.";
+	return false;
+      }
 
-    res = curl_easy_perform(conn); /* post away! */
+      res = curl_easy_perform(curl); /* post away! */
  
-    /* Check for errors */
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
-    /* free the post data again */
-    curl_mime_free(multipart);
+      /* Check for errors */
+      if(res != CURLE_OK)
+	{
+	  // fprintf(stderr, "curl_easy_perform() failed: %s\n",
+	  errmsg = "Perform failed: ";
+	  errmsg += curl_easy_strerror(res);
+	  
+	  /* always cleanup */
+	  curl_easy_cleanup(curl);
+	  return false;
+	}
+      else
+	{
+	  /* always cleanup */
+	  curl_easy_cleanup(curl);
+	}
+    }
 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
-  return 0;
+  data = buffer;
+  //  buffer = "";
+  return true;
 }
+
