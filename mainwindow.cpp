@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->checkBoxEnv, SIGNAL(stateChanged(int)), this,
 	    SLOT(OnStateChangedEnv()));
 
+
+  QString presentation = "<b>Egge's Inquirer (eggeinq) Version " + version + "</b>";
+  ui->textEdit->append (presentation);
+
   // Greet the user
   //
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

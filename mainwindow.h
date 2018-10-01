@@ -28,6 +28,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
+    QString version = "0.1.0"; // eggeinq version
 };
 
 #endif // MAINWINDOW_H
