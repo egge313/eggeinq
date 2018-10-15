@@ -25,6 +25,7 @@ public slots:
     void OnStateChangedIPv4();
     void OnStateChangedLocal();    
     void OnStateChangedEnv();
+    void OnStateChangedCredits();
 
 private:
     Ui::MainWindow *ui;

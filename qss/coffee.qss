@@ -302,7 +302,7 @@ QComboBox QAbstractItemView {
 
 QGroupBox {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #ebf1bd, stop: 1 #b6dbb8);
+                                      stop: 0 #ebf1bd, stop: 1 cornsilk);
     border: 1px solid lightgray;
     border-radius: 5px;
     margin-top: 1ex; /* leave space at the top for the title */
@@ -313,4 +313,9 @@ QGroupBox::title {
     subcontrol-position: top center; /* position at the top center */
     padding: 0 3px;
     background-color: #ebf1bd;
+}
+
+Line {
+     border-width: 1px;
+     border-style: solid;
 }
