@@ -6,7 +6,7 @@
 
 QT       += core gui widgets network
 
-TARGET = whatismyip
+TARGET = eggeinq
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use

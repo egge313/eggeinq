@@ -77,7 +77,8 @@ void MainWindow::OnClickedInquire()
 	}	
       else
 	{
-	  ui->textEdit->append (errmsg);
+          ui->textEdit->append (errmsg);
+          ui->textEdit->append ("Are you sure your computer is connected to the Internet?");
 	}	
 
     }
