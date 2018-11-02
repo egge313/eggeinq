@@ -1,0 +1,29 @@
+REQUIREMENTS
+
+GNU C++ compiler:        g++
+GNU make:	         make
+Qt make:                 qmake
+Qt libraries:            libqt5widgets libqt5gui libqt5network libqt5core
+Open graphical library:  libgl
+Portable thread library: libpthread 
+Curl library:            libcurl
+
+To compile, invoke the following commands:
+
+qmake
+make
+
+To install, invoke the following:
+
+qmake install
+
+or
+
+sudo qmake install (where necessary)
+
+(By default, installation is to /opt/eggeinq which can be changed by modifying
+target.path in file eggeinq.pro.)
+
+To uninstall:
+
+[sudo] qmake uninstall
