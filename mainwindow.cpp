@@ -57,6 +57,11 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->checkBoxIPv4->setCheckState(Qt::Checked);
 
   OnClickedInquire();
+
+  // set application icon
+  QIcon windowicon(":/images/icon.png");
+  setWindowIcon(windowicon);
+
 }
 
 void MainWindow::OnClickedClose()

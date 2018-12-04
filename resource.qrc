@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qss/coffee.qss</file>
+        <file>images/icon.png</file>
     </qresource>
 </RCC>

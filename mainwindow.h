@@ -29,7 +29,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    QString version = "0.1.4"; // eggeinq version
+    QString version = "0.1.5"; // eggeinq version
 };
 
 #endif // MAINWINDOW_H
