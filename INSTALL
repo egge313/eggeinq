@@ -13,6 +13,9 @@ To compile, invoke the following commands:
 qmake
 make
 
+If the compiler complains about missing setTableTracking the your
+version of QT is less than 5.9.
+
 To install, invoke the following:
 
 qmake install
