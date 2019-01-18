@@ -25,6 +25,7 @@
  */
 #include <stdlib.h>
 #include <QString>
+#include <QStringList>
 #include <curl/curl.h>
 #include "curlget.h"
 
@@ -52,6 +53,8 @@ bool curlget (QString & data, QString & errmsg)
   curl = curl_easy_init();
   if(curl)
     {
+      char errbuf[CURL_ERROR_SIZE];
+
       curl_easy_setopt(curl, CURLOPT_URL, 
 		     "http://www.ipmango.com/api/myip"
 		     );
@@ -74,15 +77,34 @@ bool curlget (QString & data, QString & errmsg)
 	return false;
       }
 
+      /* provide a buffer to store errors in */
+      curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errbuf);
+ 
+      /* set the error buffer as empty before performing a request */
+      errbuf[0] = 0;
+
       res = curl_easy_perform(curl); /* post away! */
  
       /* Check for errors */
       if(res != CURLE_OK)
 	{
-	  // fprintf(stderr, "curl_easy_perform() failed: %s\n",
-	  errmsg = "Perform failed: ";
-	  errmsg += curl_easy_strerror(res);
-	  
+	  size_t len = strlen(errbuf);
+	  QString resnum;
+	  resnum.setNum(res);
+
+	  errmsg = "Perform failed (code ";
+	  errmsg += resnum;
+	  errmsg += "): ";
+
+	  if (len)
+	    {
+	      errmsg += errbuf;
+	      errmsg += ((errbuf[len - 1] != '\n') ? "" : "");
+	    }
+	  else
+	    {
+	      errmsg += curl_easy_strerror(res);
+	    }
 	  /* always cleanup */
 	  curl_easy_cleanup(curl);
 	  return false;
@@ -94,8 +116,9 @@ bool curlget (QString & data, QString & errmsg)
 	}
     }
 
-  data = buffer;
-  //  buffer = "";
+  QStringList parts;
+  parts = buffer.split ("\n");
+  data = parts[0];
   return true;
 }
 
