@@ -7,4 +7,6 @@ Makefile
 eggeinq
 qrc_resource.cpp
 ui*
+eggeinq.pro.user
+
 
