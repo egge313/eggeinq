@@ -92,14 +92,13 @@ bool curlget (QString & data, QString & errmsg)
 	  QString resnum;
 	  resnum.setNum(res);
 
-	  errmsg = "Perform failed (code ";
+	  errmsg = "Error detected (code ";
 	  errmsg += resnum;
 	  errmsg += "): ";
 
 	  if (len)
 	    {
 	      errmsg += errbuf;
-	      errmsg += ((errbuf[len - 1] != '\n') ? "" : "");
 	    }
 	  else
 	    {

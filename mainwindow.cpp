@@ -36,7 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
         SLOT(OnStateChangedCredits()));
 
 
-  QString presentation = "<b>Egge's Inquirer (eggeinq) Version " + version + "</b>";
+  QString presentation = "<b>Egge's Inquirer (eggeinq) Version " +
+                               version + "</b>";
   ui->textEdit->append (presentation);
 
   // Greet the user
@@ -78,6 +79,8 @@ void MainWindow::OnClickedInquire()
       if (curlget (data, errmsg))
 	{
 	  ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
+	  data.replace(QString("\n"), QString(""));
+	  data.replace(QString("\r"), QString(""));	  
 	  ui->textEdit->append (data);
 	}	
       else
