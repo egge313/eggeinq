@@ -27,14 +27,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++14
 
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        curlget.cpp
+SOURCES +=              \
+        main.cpp        \
+        mainwindow.cpp  \
+        curlget.cpp     \
+        workerthread.cpp
 
-HEADERS += \
-        mainwindow.h \
-        curlget.h
+HEADERS +=              \
+        mainwindow.h    \
+        curlget.h       \
+        workerthread.h
 
 FORMS += \
         mainwindow.ui

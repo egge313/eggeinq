@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -11,9 +12,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+ private:
+    enum QueryStatus
+            { QueryUndefined, QueryIdle, QueryStarted,
+	      QueryOngoing, QueryFinished };
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    void setStyleSheet(const QString & sheetName);
+    void setStyleSheet (const QString & sheetName);
+    void startWorkInAThread ();
     ~MainWindow();
 
 private:
@@ -26,10 +33,15 @@ public slots:
     void OnStateChangedLocal();    
     void OnStateChangedEnv();
     void OnStateChangedCredits();
+    void handleResults (const QString & result);
+    void handleQueryTimer ();
 
 private:
     Ui::MainWindow *ui;
-    QString version = "0.1.8"; // eggeinq version
+    const QString version = "0.1.9"; // eggeinq version
+    QueryStatus querystatus = QueryIdle;
+    QTimer querytimer;
+    int queryprogress = 0;
 };
 
 #endif // MAINWINDOW_H

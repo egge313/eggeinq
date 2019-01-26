@@ -6,6 +6,8 @@
 #include <QProcessEnvironment>
 #include <QList>
 #include <QNetworkInterface>
+#include "workerthread.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	    SLOT(OnClickedInquire()));  
   ui->pushButtonInvisible1->hide();
   ui->pushButtonInvisible2->hide();
+
+  // Progress bar
+
+  // ui->progressBar->hide();
 
   // Checkboxes
 
@@ -74,8 +80,16 @@ void MainWindow::OnClickedInquire()
 {
   if (ui->checkBoxIPv4   -> isChecked())
     {
+      querystatus = QueryStarted;
+      querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
+
+      startWorkInAThread ();
+
+      /*
       QString data;
       QString errmsg;
+      
+      
       if (curlget (data, errmsg))
 	{
 	  ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
@@ -88,7 +102,7 @@ void MainWindow::OnClickedInquire()
           ui->textEdit->append (errmsg);
           ui->textEdit->append ("Are you sure your computer is connected to the Internet?");
 	}	
-
+      */
     }
   if (ui->checkBoxLocal   -> isChecked())
     {
@@ -206,6 +220,66 @@ void MainWindow::showhostip()
     }
 }
 
+// The IPv4 query is in its own thread because e.g. on disconnection there
+// may be a significant delay.
+
+void MainWindow::startWorkInAThread ()
+{
+    WorkerThread *workerThread = new WorkerThread;
+    connect(workerThread, &WorkerThread::resultReady, this,
+	    &MainWindow::handleResults);
+    connect(workerThread, &WorkerThread::finished, workerThread,
+	    &QObject::deleteLater);
+    workerThread->start();
+}
+
+void MainWindow::handleResults (const QString & result)
+{
+  ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
+  ui->textEdit->append (result);
+  querystatus = QueryFinished;
+}
+
+void MainWindow::handleQueryTimer ()
+{
+  switch (querystatus)
+    {
+    case QueryUndefined:
+        ui->textEdit->append ("Error: query undefined.");
+	break;
+    case QueryIdle:
+        ui->textEdit->append ("Error: query idle.");
+	break;
+    case QueryStarted:
+        ui->progressBar->show();      
+	querystatus = QueryOngoing;
+	queryprogress = 1;
+	ui->progressBar->setValue(queryprogress);
+	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
+	break;
+    case QueryOngoing:
+        ++queryprogress;
+	ui->progressBar->setValue(queryprogress);
+	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
+	break;
+    case QueryFinished:
+        // This only happens when the query has ended.
+      int step = (100 - queryprogress) / 9;
+      for (int i = 1; i <= 10; ++i)
+	{
+	  queryprogress += step;
+	  ui->progressBar->setValue(queryprogress);
+	  ui->progressBar->show();      
+	  QThread::msleep(200);
+	}
+      ui->progressBar->setValue(100);
+      QThread::msleep(500);
+      queryprogress = 0;
+      querytimer.stop();
+      // ui->progressBar->hide();
+      break;
+    }
+}
 
 MainWindow::~MainWindow()
 {

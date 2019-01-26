@@ -60,6 +60,26 @@ QLabel, QAbstractButton {
     color: lightbrown;
 }
 
+QProgressBar:horizontal {
+    background-color:     qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                stop: 0 cornsilk, stop:  0.5 #ebf1bd, stop: 1 #ccf4bb);	     
+    padding: 2px;
+    border-width: 2px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-radius: 3px; 
+    text-align: right; 
+}
+
+QProgressBar::chunk:horizontal {
+background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 #b9bfef, stop: 1 lightyellow);
+    padding: 4px;
+    color: white;
+    margin-right: 2px; /* space */
+    border-radius: 3px;
+    width: 6px;	  
+}
+
 /* Bold text on status bar looks awful. */
 QStatusBar QLabel {
    font: normal;
