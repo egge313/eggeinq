@@ -40,7 +40,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.2.0"; // eggeinq version
+    const QString version = "0.2.1"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;

@@ -225,7 +225,7 @@ void MainWindow::handleResults (const QString & result)
 
   //  qDebug() << "QueryHaveResults";
 
-  for (int j = 0; (j * 200) < 2000; ++j)
+  for (int j = 0; (j * 200) < 1210; ++j)
     {
       if (querydone)
 	{
@@ -252,16 +252,11 @@ void MainWindow::handleQueryTimer ()
         ui->textEdit->append ("Error: query idle.");
 	break;
     case QueryStarted:
-        ui->progressBar->show();      
-	QThread::msleep(2);
 	querystatus = QueryOngoing;
 	queryprogress = 1;
-	ui->progressBar->setValue(queryprogress);
 	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
 	break;
     case QueryOngoing:
-        ui->progressBar->show();      
-	QThread::msleep(2);
 	if (queryprogress < 99)
 	  {
 	    ++queryprogress;
@@ -271,34 +266,36 @@ void MainWindow::handleQueryTimer ()
 	    queryprogress = 99;
 	  }
 	ui->progressBar->setValue(queryprogress);
+        ui->progressBar->show();      
+	QThread::msleep(2);
 	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
 	break;
     case QueryHaveResults:
     case QueryFinished:
-        // This only happens when the query has ended.
-      {
-	int step = (100 - queryprogress) / 9;
-	for (int i = 1; i <= 10; ++i)
-	  {
-	    queryprogress += step + 1;
-	    if (queryprogress > 99)
-	      {
-		queryprogress = 99;
-	      }
-	    ui->progressBar->setValue(queryprogress);
-	    ui->progressBar->show();      
-	    QThread::msleep(150);
-	  }
-	ui->progressBar->setValue(100);
-	ui->progressBar->show();      
-	QThread::msleep(500);
-	queryprogress = 0;
-	querytimer.stop();
-	ui->progressBar->hide();
-	querystatus = QueryFinished;
-	querydone = 1;
-	break;
-      }
+      if (queryprogress > 1)
+	{
+	  int step = (100 - queryprogress) / 9;
+	  for (int i = 1; i <= 10; ++i)
+	    {
+	      queryprogress += step + 1;
+	      if (queryprogress > 99)
+		{
+		  queryprogress = 99;
+		}
+	      ui->progressBar->setValue(queryprogress);
+	      ui->progressBar->show();      
+	      QThread::msleep(150);
+	    }
+	  ui->progressBar->setValue(100);
+	  ui->progressBar->show();      
+	  QThread::msleep(500);
+	  queryprogress = 0;
+	  querytimer.stop();
+	  ui->progressBar->hide();
+	  querystatus = QueryFinished;
+	  querydone = 1;
+	}
+      break;
     }
 }
 
