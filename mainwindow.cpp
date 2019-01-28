@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   // Progress bar
 
-  // ui->progressBar->hide();
+  ui->progressBar->hide();
 
   // Checkboxes
 
@@ -83,26 +83,10 @@ void MainWindow::OnClickedInquire()
       querystatus = QueryStarted;
       querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
 
+      // IPv4 query is performed in a thread
+      //
       startWorkInAThread ();
 
-      /*
-      QString data;
-      QString errmsg;
-      
-      
-      if (curlget (data, errmsg))
-	{
-	  ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
-	  data.replace(QString("\n"), QString(""));
-	  data.replace(QString("\r"), QString(""));	  
-	  ui->textEdit->append (data);
-	}	
-      else
-	{
-          ui->textEdit->append (errmsg);
-          ui->textEdit->append ("Are you sure your computer is connected to the Internet?");
-	}	
-      */
     }
   if (ui->checkBoxLocal   -> isChecked())
     {
@@ -129,7 +113,7 @@ void MainWindow::OnClickedInquire()
       ui->textEdit->append("Origin: Forssa, Finland, 2018");
       ui->textEdit->append("Contact: esa.kettunen@gmx.com");
       ui->textEdit->append("Source code: https://github.com/egge313/eggeinq");
-      ui->textEdit->append("Copyright © Esa Kettunen 2018");
+      ui->textEdit->append("Copyright © Esa Kettunen 2018-2019");
       ui->textEdit->append("eggeinq is free software and freely distributed under GNU Lesser Public License (LPGL)");
     }
 }
@@ -235,13 +219,30 @@ void MainWindow::startWorkInAThread ()
 
 void MainWindow::handleResults (const QString & result)
 {
+  querystatus = QueryHaveResults;
+
+  QThread::yieldCurrentThread();
+
+  //  qDebug() << "QueryHaveResults";
+
+  for (int j = 0; (j * 200) < 2000; ++j)
+    {
+      if (querydone)
+	{
+	  break;
+	}
+      QThread::msleep(200);
+    }
+  querydone = 0;
   ui->textEdit->append ("<h3>IP number (IPv4):</h3>");
-  ui->textEdit->append (result);
-  querystatus = QueryFinished;
+  ui->textEdit->append (result);  
+  QThread::yieldCurrentThread();
 }
 
 void MainWindow::handleQueryTimer ()
 {
+  //  qDebug() << "querystatus=" << (int)querystatus;
+
   switch (querystatus)
     {
     case QueryUndefined:
@@ -252,32 +253,52 @@ void MainWindow::handleQueryTimer ()
 	break;
     case QueryStarted:
         ui->progressBar->show();      
+	QThread::msleep(2);
 	querystatus = QueryOngoing;
 	queryprogress = 1;
 	ui->progressBar->setValue(queryprogress);
 	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
 	break;
     case QueryOngoing:
-        ++queryprogress;
+        ui->progressBar->show();      
+	QThread::msleep(2);
+	if (queryprogress < 99)
+	  {
+	    ++queryprogress;
+	  }
+	else
+	  {
+	    queryprogress = 99;
+	  }
 	ui->progressBar->setValue(queryprogress);
 	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
 	break;
+    case QueryHaveResults:
     case QueryFinished:
         // This only happens when the query has ended.
-      int step = (100 - queryprogress) / 9;
-      for (int i = 1; i <= 10; ++i)
-	{
-	  queryprogress += step;
-	  ui->progressBar->setValue(queryprogress);
-	  ui->progressBar->show();      
-	  QThread::msleep(200);
-	}
-      ui->progressBar->setValue(100);
-      QThread::msleep(500);
-      queryprogress = 0;
-      querytimer.stop();
-      // ui->progressBar->hide();
-      break;
+      {
+	int step = (100 - queryprogress) / 9;
+	for (int i = 1; i <= 10; ++i)
+	  {
+	    queryprogress += step + 1;
+	    if (queryprogress > 99)
+	      {
+		queryprogress = 99;
+	      }
+	    ui->progressBar->setValue(queryprogress);
+	    ui->progressBar->show();      
+	    QThread::msleep(150);
+	  }
+	ui->progressBar->setValue(100);
+	ui->progressBar->show();      
+	QThread::msleep(500);
+	queryprogress = 0;
+	querytimer.stop();
+	ui->progressBar->hide();
+	querystatus = QueryFinished;
+	querydone = 1;
+	break;
+      }
     }
 }
 

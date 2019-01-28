@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QMutex>
+#include <QWaitCondition>
 
 namespace Ui {
 class MainWindow;
@@ -15,7 +17,7 @@ class MainWindow : public QMainWindow
  private:
     enum QueryStatus
             { QueryUndefined, QueryIdle, QueryStarted,
-	      QueryOngoing, QueryFinished };
+	      QueryOngoing, QueryHaveResults, QueryFinished };
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -38,10 +40,13 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.1.9"; // eggeinq version
+    const QString version = "0.2.0"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;
+    int querydone = 0;
+    //    QMutex querymutex;
+    // QWaitCondition querywaitcondition;
 };
 
 #endif // MAINWINDOW_H
