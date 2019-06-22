@@ -8,6 +8,7 @@
 #include <QNetworkInterface>
 #include "workerthread.h"
 #include <QDebug>
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -73,6 +74,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::OnClickedClose()
 {
+  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+  if (env.contains("USER"))
+    {
+      QString greeting = "Bye, " + env.value("USER") + "!";
+      ui->textEdit->append (greeting);
+    }
+  else
+    {
+      ui->textEdit->append ("Bye, stranger!");
+    }
+  QThread::msleep(2750);
   close();
 }
 

@@ -37,12 +37,12 @@ static QString buffer;
 
 static int writer(char *data, size_t size, size_t nmemb, QString *writerData)
 {
-  if(writerData == NULL)
+  if(writerData == nullptr)
     return 0;
 
   writerData->append(data);
 
-  return size * nmemb;
+  return size * static_cast<int>(nmemb);
 }
 
 bool curlget (QString & data, QString & errmsg)
