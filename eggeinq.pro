@@ -31,11 +31,13 @@ SOURCES +=              \
         main.cpp        \
         mainwindow.cpp  \
         curlget.cpp     \
+        osrelease.cpp \
         workerthread.cpp
 
 HEADERS +=              \
         mainwindow.h    \
         curlget.h       \
+        osrelease.h \
         workerthread.h
 
 FORMS += \

@@ -34,13 +34,14 @@ public slots:
     void OnStateChangedIPv4();
     void OnStateChangedLocal();    
     void OnStateChangedEnv();
+    void OnStateChangedOsRelease();
     void OnStateChangedCredits();
     void handleResults (const QString & result);
     void handleQueryTimer ();
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.2.2"; // eggeinq version
+    const QString version = "0.2.3"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;
