@@ -87,7 +87,7 @@ void MainWindow::OnClickedClose()
     {
       ui->textEdit->append ("Bye, stranger!");
     }
-  QThread::msleep(2750);
+  QThread::msleep(1200);
   close();
 }
 
@@ -138,8 +138,8 @@ void MainWindow::OnClickedInquire()
       ui->textEdit->append("Origin: Forssa, Finland, 2018-2019");
       ui->textEdit->append("Contact: esa.kettunen@gmx.com");
       ui->textEdit->append("Source code: https://github.com/egge313/eggeinq");
-      ui->textEdit->append("Copyright © Esa Kettunen 2018-2019");
-      ui->textEdit->append("eggeinq is free software and freely distributed under GNU Lesser Public License (LPGL)");
+      ui->textEdit->append("Copyright © 2018-2019 Esa Kettunen");
+      ui->textEdit->append("eggeinq is free software and freely distributed under GNU Lesser Public License (LPGL), Version 3.");
     }
 }
 
