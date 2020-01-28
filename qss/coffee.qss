@@ -49,10 +49,12 @@ QPushButton:pressed {
     padding-left: 3px;
     padding-top: 3px;
     background-color: #d0d67c;
+    
 }
 
-QLabel, QAbstractButton {
-    font: bold;
+
+QAbstractButton {
+    font: bold;		
 }
 
 /* Mark mandatory fields with a brownish color. */
@@ -138,12 +140,7 @@ QLineEdit:focus, QComboBox:focus, QTextEdit:focus, QListView:focus,
     padding: 0px;
 }
 
-/* A QLabel is a QFrame ... */
-QLabel {
-    border: none;
-    padding: 0;
-    background: none;
-}
+
 
 /* A QToolTip is a QLabel ... */
 QToolTip {
@@ -338,4 +335,14 @@ QGroupBox::title {
 Line {
      border-width: 1px;
      border-style: solid;
+}
+
+QLabel {
+    font: bold;
+    text-align: center;
+    border-width: 1pt;
+    border-color: lightgrey;
+  background: qlineargradient(
+      x1: 0, y1: 0, x2: 0, y2: 1,
+      stop: 0 #ccf4aa, stop: 0.4 cornsilk, stop 0.6 cornsilk, stop: 1 #ccf4aa);
 }

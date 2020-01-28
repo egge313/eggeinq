@@ -10,6 +10,7 @@
 #include "workerthread.h"
 #include <QDebug>
 #include <QThread>
+#include <QNetworkConfigurationManager>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	    SLOT(OnClickedClose()));
   connect(ui->pushButtonInquire, SIGNAL(clicked()), this,
 	    SLOT(OnClickedInquire()));  
-  ui->pushButtonInvisible1->hide();
-  ui->pushButtonInvisible2->hide();
 
   // Progress bar
 
@@ -53,16 +52,28 @@ MainWindow::MainWindow(QWidget *parent) :
   // Greet the user
   //
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+
+  // Connect status.
   if (env.contains("USER"))
     {
       QString greeting = "Hello, " + env.value("USER") + "!";
       ui->textEdit->append (greeting);
+      ui->connectLabel->setText("   Internet: Connected");
     }
   else
     {
       ui->textEdit->append ("Hello, stranger!");
+      ui->connectLabel->setText("   Internet: Not Connected");
     }
 
+  if (isonline())
+    {
+      ui->textEdit->append ("You are online.");
+    }
+  else
+    {
+      ui->textEdit->append ("You are not connected to the internet.");
+    }
   // Check the IPv4 box 
   //
   ui->checkBoxIPv4->setCheckState(Qt::Checked);
@@ -341,6 +352,17 @@ void MainWindow::handleQueryTimer ()
 	}
       break;
     }
+}
+
+bool MainWindow::isonline ()
+{
+  QNetworkConfigurationManager mgr;
+  QList<QNetworkConfiguration> activeConfigs = mgr.
+    allConfigurations(QNetworkConfiguration::Active);
+  if (activeConfigs.count() > 0)
+    return mgr.isOnline();
+  else
+    return mgr.isOnline();
 }
 
 MainWindow::~MainWindow()
