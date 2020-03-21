@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
+    <width>421</width>
     <height>432</height>
    </rect>
   </property>
@@ -24,7 +24,20 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="0" colspan="2">
+       <item row="0" column="0" colspan="2">
+        <widget class="QTextEdit" name="textEdit">
+         <property name="maximumSize">
+          <size>
+           <width>600</width>
+           <height>400</height>
+          </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
         <widget class="QProgressBar" name="progressBar">
          <property name="font">
           <font>
@@ -42,19 +55,6 @@
          </property>
          <property name="format">
           <string>  %p%  </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QTextEdit" name="textEdit">
-         <property name="maximumSize">
-          <size>
-           <width>500</width>
-           <height>200</height>
-          </size>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -136,35 +136,16 @@
          </layout>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="pushButtonClose">
-         <property name="maximumSize">
+       <item row="2" column="1">
+        <widget class="QLabel" name="connectLabel">
+         <property name="minimumSize">
           <size>
-           <width>400</width>
-           <height>200</height>
+           <width>220</width>
+           <height>49</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="mouseTracking">
-          <bool>true</bool>
-         </property>
-         <property name="tabletTracking">
-          <bool>false</bool>
-         </property>
          <property name="text">
-          <string>Exit</string>
-         </property>
-         <property name="default">
-          <bool>true</bool>
+          <string>TextLabel</string>
          </property>
         </widget>
        </item>
@@ -172,8 +153,8 @@
         <widget class="QPushButton" name="pushButtonInquire">
          <property name="maximumSize">
           <size>
-           <width>500</width>
-           <height>200</height>
+           <width>160</width>
+           <height>40</height>
           </size>
          </property>
          <property name="font">
@@ -197,16 +178,35 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="connectLabel">
-         <property name="minimumSize">
+       <item row="4" column="1">
+        <widget class="QPushButton" name="pushButtonClose">
+         <property name="maximumSize">
           <size>
-           <width>220</width>
-           <height>49</height>
+           <width>160</width>
+           <height>40</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="mouseTracking">
+          <bool>true</bool>
+         </property>
+         <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
          <property name="text">
-          <string>TextLabel</string>
+          <string>Exit</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
