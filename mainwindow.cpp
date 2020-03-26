@@ -61,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent) :
       ui->textEdit->append (greeting);
       QString localhostname = QHostInfo::localHostName();
       ui->textEdit->append ("Local host name: " + localhostname + ".");
-      ui->connectLabel->setText("   Internet: Connected");
     }
   else
     {
@@ -69,14 +68,18 @@ MainWindow::MainWindow(QWidget *parent) :
       ui->connectLabel->setText("   Internet: Not Connected");
     }
 
+  /*
   if (isonline())
     {
       ui->textEdit->append ("You are online.");
+      ui->connectLabel->setText("   Internet: Connected");
     }
   else
     {
       ui->textEdit->append ("You are not connected to the internet.");
+      ui->connectLabel->setText("   Internet: Not connected");
     }
+  */
   // Check the IPv4 box 
   //
   ui->checkBoxIPv4->setCheckState(Qt::Checked);
@@ -115,6 +118,19 @@ void MainWindow::OnClickedInquire()
       // IPv4 query is performed in a thread
       //
       startWorkInAThread ();
+
+      // Check the system's understanding of its own connectedness status.
+      //
+      if (isonline())
+	{
+	  ui->textEdit->append ("You are online.");
+	  ui->connectLabel->setText("   Internet: Connected");
+	}
+      else
+	{
+	  ui->textEdit->append ("You are not connected to the internet.");
+	  ui->connectLabel->setText("   Internet: Not connected");
+	}
 
     }
   if (ui->checkBoxLocal   -> isChecked())

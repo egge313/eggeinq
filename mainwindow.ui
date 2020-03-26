@@ -112,8 +112,8 @@
         <widget class="QPushButton" name="pushButtonClose">
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>35</height>
+           <width>145</width>
+           <height>40</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -150,8 +150,8 @@
         <widget class="QPushButton" name="pushButtonInquire">
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>35</height>
+           <width>145</width>
+           <height>40</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -219,8 +219,8 @@
         <widget class="QLabel" name="connectLabel">
          <property name="minimumSize">
           <size>
-           <width>80</width>
-           <height>62</height>
+           <width>70</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
