@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QTimer>
@@ -42,11 +41,10 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.2.9"; // eggeinq version
+    const QString version = "0.3.0"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;
     int querydone = 0;
 };
 
-#endif // MAINWINDOW_H

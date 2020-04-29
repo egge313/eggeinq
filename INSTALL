@@ -1,3 +1,6 @@
+THESE INSTRUCTIONS apply to Linux (Unix) computers. There will be a similar
+guide for Windows once I get hold of one.
+
 REQUIREMENTS
 
 GNU C++ compiler:        g++
@@ -6,28 +9,45 @@ Qt make:                 qmake
 Qt libraries:            libqt5widgets libqt5gui libqt5network libqt5core
 Open graphical library:  libgl
 Portable thread library: libpthread 
-Curl library:            libcurl
+Curl library:            libcurl-gnutls-dev or libcurl-openssl-dev
+                         (the dev version is required because we need the curl
+			  headers)
+
+Depending on the Linux distribution the libraries may have slightly
+different names, e.g. in Lubuntu it is libqt5widgets5, etc. You can
+search for a particular library with the following command:
+
+  apt search libqt5widgets
+
+My Lubuntu environment would not do qmake before I did the following:
+
+  sudo apt-get install qt5-default
 
 To compile, invoke the following commands:
 
-qmake
-make
+  qmake
+  make
 
 If the compiler complains about missing setTableTracking then your
 version of QT is less than 5.9. You can edit out the corresponding line in
 "mainwindow.ui".
 
+To run the program you type:
+
+  ./eggeinq &
+
 To install, invoke the following:
 
-qmake install
+  make install
 
 or
 
-sudo qmake install (where necessary)
+  sudo make install (where necessary)
 
-(By default, installation is to /opt/eggeinq which can be changed by modifying
-target.path in file eggeinq.pro.)
+(By default, installation is to /opt/eggeinq which can be changed by
+modifying target.path in file eggeinq.pro.) You need to make the
+apropriate changes to the PATH.
 
 To uninstall:
 
-[sudo] qmake uninstall
+  [sudo] make uninstall
