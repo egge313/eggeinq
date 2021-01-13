@@ -123,7 +123,7 @@ void MainWindow::OnClickedInquire()
       //
       if (isonline())
 	{
-	  ui->textEdit->append ("You are online.");
+	  ui->textEdit->append ("You appear to be online.");
 	  ui->connectLabel->setText("   Internet: Connected");
 	}
       else
@@ -168,8 +168,8 @@ void MainWindow::OnClickedInquire()
       ui->textEdit->append("Origin: Forssa, Finland, 2018-2020");
       ui->textEdit->append("Contact: esa.kettunen@gmx.com");
       ui->textEdit->append("Source code: https://github.com/egge313/eggeinq");
-      ui->textEdit->append("Copyright © 2018-2020 Esa Kettunen");
-      ui->textEdit->append("eggeinq is free software and freely distributed under GNU Lesser Public License (LPGL), Version 3.");
+      ui->textEdit->append("Copyright © 2018-2021 Esa Kettunen");
+      ui->textEdit->append("<b>eggeinq<\b> is free software and freely distributed under GNU Lesser Public License (LPGL), Version 3.");
     }
 }
 
