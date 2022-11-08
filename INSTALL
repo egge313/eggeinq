@@ -1,5 +1,5 @@
-THESE INSTRUCTIONS apply to Linux (Unix) computers. There will be a similar
-guide for Windows once I get hold of one.
+THESE INSTRUCTIONS apply to Linux (Unix) computers. Under Windows, the
+MinGW environment (the new one) works similarly. 
 
 REQUIREMENTS
 
@@ -14,7 +14,7 @@ Curl library:            libcurl-gnutls-dev or libcurl-openssl-dev
 			  headers)
 
 Depending on the Linux distribution the libraries may have slightly
-different names, e.g. in Lubuntu it is libqt5widgets5, etc. You can
+different names, e.g., in Lubuntu it is libqt5widgets5, etc. You can
 search for a particular library with the following command:
 
   apt search libqt5widgets
@@ -22,6 +22,10 @@ search for a particular library with the following command:
 My Lubuntu environment would not do qmake before I did the following:
 
   sudo apt-get install qt5-default
+
+Debian 11 required the following:
+
+  sudo apt-get install qtbase5-dev
 
 To compile, invoke the following commands:
 
@@ -46,7 +50,7 @@ or
 
 (By default, installation is to /opt/eggeinq which can be changed by
 modifying target.path in file eggeinq.pro.) You need to make the
-apropriate changes to the PATH.
+appropriate changes to the PATH environment variable.
 
 To uninstall:
 

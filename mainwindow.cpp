@@ -165,10 +165,10 @@ void MainWindow::OnClickedInquire()
       ui->textEdit->append("<h3>Credits</h3>");
       ui->textEdit->append("Programmer: Esa Kettunen");
       ui->textEdit->append("Organization: Egge Collective");
-      ui->textEdit->append("Origin: Forssa, Finland, 2018-2021");
+      ui->textEdit->append("Origin: Forssa, Finland, 2018-2022");
       ui->textEdit->append("Contact: esa.kettunen@gmx.com");
       ui->textEdit->append("Source code: https://github.com/egge313/eggeinq");
-      ui->textEdit->append("Copyright © 2018-2021 Esa Kettunen");
+      ui->textEdit->append("Copyright © 2018-2022 Esa Kettunen");
       ui->textEdit->append("<b>eggeinq<\b> is free software and freely distributed under GNU Lesser Public License (LPGL), Version 3.");
     }
 }

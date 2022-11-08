@@ -204,12 +204,6 @@
        </item>
        <item row="0" column="0" colspan="3">
         <widget class="QTextEdit" name="textEdit">
-         <property name="maximumSize">
-          <size>
-           <width>600</width>
-           <height>400</height>
-          </size>
-         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
