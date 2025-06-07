@@ -375,14 +375,18 @@ void MainWindow::handleQueryTimer ()
 
 bool MainWindow::isonline ()
 {
-    QNetworkInformation* ni = QNetworkInformation::instance();
-    if ( nullptr == ni )
-        return false;
-    QNetworkInformation::Reachability reachability = ni->reachability();
-    if ( reachability == QNetworkInformation::Reachability::Online )
-        return true;
-    else
-        return false;
+    if ( QNetworkInformation::loadDefaultBackend() && QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::Reachability ) ) {
+        QNetworkInformation* net_info = QNetworkInformation::instance();
+        if ( nullptr != net_info ) {
+            if(net_info->reachability() == QNetworkInformation::Reachability::Online) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+   return false;
 }
 
 MainWindow::~MainWindow()
