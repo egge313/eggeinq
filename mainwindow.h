@@ -22,7 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void setStyleSheet (const QString & sheetName);
     void startWorkInAThread ();
-    bool isonline ();
+    bool isonline ( QString & feature );
     ~MainWindow();
 
 private:
@@ -41,7 +41,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.3.5"; // eggeinq version
+    const QString version = "0.3.6"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;

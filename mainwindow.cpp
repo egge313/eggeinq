@@ -121,16 +121,20 @@ void MainWindow::OnClickedInquire()
 
       // Check the system's understanding of its own connectedness status.
       //
-      if (isonline())
-	{
-	  ui->textEdit->append ("You appear to be online.");
-	  ui->connectLabel->setText("   Internet: Connected");
-	}
+      QString connectedness_features = "";
+      if (isonline ( connectedness_features ))
+        {
+          ui->textEdit->append ("You appear to be online.");
+          ui->connectLabel->setText("   Internet: Connected");
+          if ( connectedness_features != "" )
+              ui->textEdit->append ( "Connection features: " + connectedness_features );
+
+        }
       else
-	{
-	  ui->textEdit->append ("You are not connected to the internet.");
-	  ui->connectLabel->setText("   Internet: Not connected");
-	}
+        {
+          ui->textEdit->append ("You are not connected to the internet.");
+          ui->connectLabel->setText("   Internet: Not connected");
+        }
 
     }
   if (ui->checkBoxLocal   -> isChecked())
@@ -373,20 +377,89 @@ void MainWindow::handleQueryTimer ()
     }
 }
 
-bool MainWindow::isonline ()
+bool MainWindow::isonline (QString & feature)
 {
-    if ( QNetworkInformation::loadDefaultBackend() && QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::Reachability ) ) {
+    bool connected = false;
+    if ( QNetworkInformation::loadDefaultBackend() && QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::Reachability ) )
+    {
         QNetworkInformation* net_info = QNetworkInformation::instance();
-        if ( nullptr != net_info ) {
-            if(net_info->reachability() == QNetworkInformation::Reachability::Online) {
-                return true;
-            }
-            else {
-                return false;
+        if ( nullptr != net_info )
+        {
+            switch ( net_info->reachability() )
+            {
+            case QNetworkInformation::Reachability::Online:
+                connected = true;
+                break;
+            case QNetworkInformation::Reachability::Disconnected:
+                feature += " Disconnected";
+                break;
+            case QNetworkInformation::Reachability::Local:
+                feature += " Local";
+                break;
+            case QNetworkInformation::Reachability::Site:
+                feature += " Site";
+                break;
+            case QNetworkInformation::Reachability::Unknown:
+                feature += " Unknown";
+                break;
+            default:
+                feature += " No reachability information";
+                break;
             }
         }
     }
-   return false;
+
+    if ( QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::CaptivePortal ) )
+        {
+            QNetworkInformation* net_info = QNetworkInformation::instance();
+            if ( nullptr != net_info && net_info->isBehindCaptivePortal() )
+                {
+                    feature += "CaptivePortal";
+                }
+        }
+
+    if ( QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::TransportMedium ) )
+        {
+            QNetworkInformation* net_info = QNetworkInformation::instance();
+            if ( nullptr != net_info )
+                {
+
+                    //  QNetworkInformation::TransportMedium::Unknown	0	Returned if either the OS reports no active medium, the active medium is not recognized by Qt, or the TransportMedium feature is not supported.
+                    //    QNetworkInformation::TransportMedium::Ethernet	1	Indicates that the currently active connection is using ethernet. Note: This value may also be returned when Windows is connected to a Bluetooth personal area network.
+                    //    QNetworkInformation::TransportMedium::Cellular	2	Indicates that the currently active connection is using a cellular network.
+                    //    QNetworkInformation::TransportMedium::WiFi	3	Indicates that the currently active connection is using Wi-Fi.
+                    //    QNetworkInformation::TransportMedium::Bluetooth	4	Indicates that the currently active connection is connected using Bluetooth.
+
+                    switch ( net_info->transportMedium() )
+                    {
+                    case QNetworkInformation::TransportMedium::Unknown:
+                        break;
+                    case QNetworkInformation::TransportMedium::Ethernet:
+                        feature += " Ethernet";
+                        break;
+                    case QNetworkInformation::TransportMedium::Cellular:
+                        feature += " Cellular";
+                        break;
+                    case QNetworkInformation::TransportMedium::WiFi:
+                        feature += " WiFi";
+                        break;
+                    case  QNetworkInformation::TransportMedium::Bluetooth:
+                        feature += " Bluetooth";
+                        break;
+                    }
+                }
+         }
+
+        if ( QNetworkInformation::loadBackendByFeatures( QNetworkInformation::Feature::Metered ) )
+        {
+             QNetworkInformation* net_info = QNetworkInformation::instance();
+            if ( nullptr != net_info && net_info->isMetered() )
+             {
+                 feature += " Metered";
+             }
+        }
+   return connected;
+
 }
 
 MainWindow::~MainWindow()

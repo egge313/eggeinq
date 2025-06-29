@@ -53,7 +53,7 @@ unix:!macx: LIBS += -L/usr/lib/ -L/usr/lib/x86_64-linux-gnu -lcurl -lGL
 INCLUDEPATH += /usr/inluce/x86_64-linux-gnu
 INCLUDEPATH += /usr/include/c++/6
 
-DEPENDPATH += /usr/inluce/x86_64-linux-gnu
+DEPENDPATH += /usr/include/x86_64-linux-gnu
 
 DISTFILES += \
     qss/coffee.qss \
