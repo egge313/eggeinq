@@ -48,7 +48,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix:!macx: LIBS += -L/usr/lib/ -L/usr/lib/x86_64-linux-gnu -lcurl -lGL
+unix:!macx: LIBS += -L/usr/lib/ -L/opt/Qt/6.9.3/gcc_64/lib -L/usr/lib/x86_64-linux-gnu -lcurl -lGL
 
 INCLUDEPATH += /usr/inluce/x86_64-linux-gnu
 INCLUDEPATH += /usr/include/c++/6

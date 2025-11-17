@@ -12,6 +12,7 @@
 #include <QThread>
 #include <QNetworkInformation>
 #include <QHostInfo>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -44,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
         SLOT(OnStateChangedCredits()));
   connect(ui->checkBoxOsRelease, SIGNAL(stateChanged(int)), this,
         SLOT(OnStateChangedOsRelease()));
+  connect(ui->checkBoxDrivers, SIGNAL(stateChanged(int)), this,
+          SLOT(OnStateChangedDrivers()));
 
 
   QString presentation = "<b>Egge's Inquirer (eggeinq) Version " +
@@ -175,6 +178,45 @@ void MainWindow::OnClickedInquire()
       ui->textEdit->append("Copyright © 2018-2025 Esa Kettunen");
       ui->textEdit->append("<b>eggeinq<\b> is free software and freely distributed under GNU Lesser Public License (LPGL), Version 3.");
     }
+  if (ui->checkBoxDrivers -> isChecked())
+  {
+
+      ui->textEdit->append("<h3>Drivers</h3>");
+
+      QProcess proc;
+      // Preferred: pass program and args separately (no shell)
+      proc.start("inxi", QStringList() << "-Fxxxrz");
+
+      if (!proc.waitForFinished(5000)) { // timeout in ms
+        qWarning() << "Process did not finish in time";
+
+      }
+      else
+      {
+
+        QByteArray output = proc.readAllStandardOutput();
+        QByteArray error  = proc.readAllStandardError();
+
+
+        if (proc.exitCode() == 0)
+        {
+            QString outputStr = QString::fromUtf8( output );
+            outputStr.remove ( "\00312" );
+            outputStr.replace ( ":\003", "\003" );
+            outputStr.replace ( "\003", ":" );
+            ui->textEdit->append( outputStr );
+        }
+        else
+        {
+            QString errorStr = QString::fromUtf8( error );
+            errorStr.remove ( "\00312" );
+            errorStr.remove ( "\003" );
+            ui->textEdit->append( "Something failed:\n" );
+            ui->textEdit->append( error );
+        }
+
+      }
+  }
 }
 
 void MainWindow::OnStateChangedIPv4()
@@ -182,7 +224,8 @@ void MainWindow::OnStateChangedIPv4()
   if (!ui->checkBoxIPv4  -> isChecked() &&
       !ui->checkBoxLocal -> isChecked() &&
       !ui->checkBoxCredits -> isChecked() &&
-      !ui->checkBoxOsRelease -> isChecked() &&      
+      !ui->checkBoxOsRelease -> isChecked() &&
+      !ui->checkBoxDrivers -> isChecked() &&
       !ui->checkBoxEnv   -> isChecked())
     {
       ui->pushButtonInquire->setEnabled(false);
@@ -198,7 +241,8 @@ void MainWindow::OnStateChangedLocal()
   if (!ui->checkBoxIPv4->isChecked() &&
       !ui->checkBoxLocal->isChecked() &&
       !ui->checkBoxCredits -> isChecked() &&
-      !ui->checkBoxOsRelease -> isChecked() &&      
+      !ui->checkBoxOsRelease -> isChecked() &&
+      !ui->checkBoxDrivers -> isChecked() &&
       !ui->checkBoxEnv->isChecked())
     {
       ui->pushButtonInquire->setEnabled(false);
@@ -214,7 +258,8 @@ void MainWindow::OnStateChangedEnv()
   if (!ui->checkBoxIPv4->isChecked() &&
       !ui->checkBoxLocal->isChecked() &&
       !ui->checkBoxCredits -> isChecked() &&
-      !ui->checkBoxOsRelease -> isChecked() &&      
+      !ui->checkBoxOsRelease -> isChecked() &&
+      !ui->checkBoxDrivers -> isChecked() &&
       !ui->checkBoxEnv->isChecked())
     {
       ui->pushButtonInquire->setEnabled(false);
@@ -230,7 +275,8 @@ void MainWindow::OnStateChangedCredits()
   if (!ui->checkBoxIPv4->isChecked() &&
       !ui->checkBoxLocal->isChecked() &&
       !ui->checkBoxCredits -> isChecked() &&
-      !ui->checkBoxOsRelease -> isChecked() &&      
+      !ui->checkBoxOsRelease -> isChecked() &&
+      !ui->checkBoxDrivers -> isChecked() &&
       !ui->checkBoxEnv->isChecked())
     {
       ui->pushButtonInquire->setEnabled(false);
@@ -246,7 +292,8 @@ void MainWindow::OnStateChangedOsRelease()
   if (!ui->checkBoxIPv4->isChecked() &&
       !ui->checkBoxLocal->isChecked() &&
       !ui->checkBoxCredits -> isChecked() &&
-      !ui->checkBoxOsRelease -> isChecked() &&      
+      !ui->checkBoxOsRelease -> isChecked() &&
+      !ui->checkBoxDrivers -> isChecked() &&
       !ui->checkBoxEnv->isChecked())
     {
       ui->pushButtonInquire->setEnabled(false);
@@ -254,6 +301,23 @@ void MainWindow::OnStateChangedOsRelease()
   else
     {
       ui->pushButtonInquire->setEnabled(true);
+    }
+}
+
+void MainWindow::OnStateChangedDrivers()
+{
+    if (!ui->checkBoxIPv4->isChecked() &&
+        !ui->checkBoxLocal->isChecked() &&
+        !ui->checkBoxCredits -> isChecked() &&
+        !ui->checkBoxOsRelease -> isChecked() &&
+        !ui->checkBoxDrivers -> isChecked() &&
+        !ui->checkBoxEnv->isChecked())
+    {
+        ui->pushButtonInquire->setEnabled(false);
+    }
+    else
+    {
+        ui->pushButtonInquire->setEnabled(true);
     }
 }
 

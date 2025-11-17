@@ -35,13 +35,14 @@ public slots:
     void OnStateChangedLocal();    
     void OnStateChangedEnv();
     void OnStateChangedOsRelease();
+    void OnStateChangedDrivers();
     void OnStateChangedCredits();
     void handleResults (const QString & result);
     void handleQueryTimer ();
 
 private:
     Ui::MainWindow *ui;
-    const QString version = "0.3.6"; // eggeinq version
+    const QString version = "0.3.7"; // eggeinq version
     QueryStatus querystatus = QueryIdle;
     QTimer querytimer;
     int queryprogress = 0;
