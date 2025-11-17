@@ -23,6 +23,7 @@ public:
     void setStyleSheet (const QString & sheetName);
     void startWorkInAThread ();
     bool isonline ( QString & feature );
+    void printError ( const QString & errmsg );
     ~MainWindow();
 
 private:

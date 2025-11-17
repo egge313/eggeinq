@@ -135,7 +135,7 @@ void MainWindow::OnClickedInquire()
         }
       else
         {
-          ui->textEdit->append ("You are not connected to the internet.");
+          printError ("You are not connected to the internet.");
           ui->connectLabel->setText("   Internet: Not connected");
         }
 
@@ -187,9 +187,9 @@ void MainWindow::OnClickedInquire()
       // Preferred: pass program and args separately (no shell)
       proc.start("inxi", QStringList() << "-Fxxxrz");
 
-      if (!proc.waitForFinished(5000)) { // timeout in ms
-        qWarning() << "Process did not finish in time";
-
+      if (!proc.waitForFinished(5000))
+      { // timeout in ms
+          printError ( "Process did not finish in time." );
       }
       else
       {
@@ -210,9 +210,10 @@ void MainWindow::OnClickedInquire()
         {
             QString errorStr = QString::fromUtf8( error );
             errorStr.remove ( "\00312" );
-            errorStr.remove ( "\003" );
-            ui->textEdit->append( "Something failed:\n" );
-            ui->textEdit->append( error );
+            errorStr.replace ( ":\003", "\003" );
+            errorStr.replace ( "\003", ":" );
+            printError ( "Something failed:\n" );
+            printError ( error );
         }
 
       }
@@ -388,38 +389,38 @@ void MainWindow::handleQueryTimer ()
   switch (querystatus)
     {
     case QueryUndefined:
-        ui->textEdit->append ("Error: query undefined.");
-	break;
+        printError ("Error: query undefined.");
+        break;
     case QueryIdle:
-        ui->textEdit->append ("Error: query idle.");
+        printError ("Error: query idle.");
 	break;
     case QueryStarted:
-	querystatus = QueryOngoing;
-	queryprogress = 1;
-	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
-	break;
+        querystatus = QueryOngoing;
+        queryprogress = 1;
+        querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
+        break;
     case QueryOngoing:
-	if (queryprogress < 99)
-	  {
-	    ++queryprogress;
-	  }
-	else
-	  {
-	    queryprogress = 99;
-	  }
-	ui->progressBar->setValue(queryprogress);
-        ui->progressBar->show();      
-	QThread::msleep(2);
-	querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
-	break;
+        if (queryprogress < 99)
+          {
+            ++queryprogress;
+          }
+        else
+          {
+            queryprogress = 99;
+          }
+        ui->progressBar->setValue(queryprogress);
+            ui->progressBar->show();
+        QThread::msleep(2);
+        querytimer.singleShot(1000, this, SLOT(handleQueryTimer()));
+        break;
     case QueryHaveResults:
     case QueryFinished:
       if (queryprogress > 1)
-	{
-	  int step = (100 - queryprogress) / 9;
-	  for (int i = 1; i <= 10; ++i)
-	    {
-	      queryprogress += step + 1;
+        {
+            int step = (100 - queryprogress) / 9;
+            for (int i = 1; i <= 10; ++i)
+            {
+          queryprogress += step + 1;
 	      if (queryprogress > 99)
 		{
 		  queryprogress = 99;
@@ -439,6 +440,13 @@ void MainWindow::handleQueryTimer ()
 	}
       break;
     }
+}
+
+void MainWindow::printError ( const QString & errmsg )
+{
+    ui->textEdit->setTextColor(Qt::red);   // sets color used for subsequently inserted text
+    ui->textEdit->append ( errmsg );
+    ui->textEdit->setTextColor(Qt::black); // restore if needed
 }
 
 bool MainWindow::isonline (QString & feature)
